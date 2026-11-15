@@ -1,20 +1,32 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# TraceNet Learning Lab
 
-# Run and deploy your AI Studio app
+An educational project inspired by TraceNet, built from scratch to explore security lessons, fictional investigation data, and lab simulations.
 
-This contains everything you need to run your app locally.
+## About
 
-View your app in AI Studio: https://ai.studio/apps/f23eeb3b-a5c0-46f4-81b8-6723eaac9008
+This project is a hands-on learning exercise. I’m building its features myself with AI guidance, using original code, design, and sample data.
 
-## Run Locally
+## Planned Features
 
-**Prerequisites:**  Node.js
+- Security lessons with fictional evidence and defensive guidance
+- Searchable sample profiles and infrastructure records
+- Visual relationships between records
+- A simulated lab with sample nodes and logs
+- Browser-local data storage
+- Reports and data exports
 
+## Tech Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+To be decided.
+
+## Getting Started
+
+Setup instructions will be added as the project takes shape.
+
+## Safety and Scope
+
+All examples are fictional and intended for education. Simulated findings and confidence values are not verified evidence or attribution.
+
+## Learning Approach
+
+AI will help me understand concepts, plan milestones, and review my work. I’ll write the code myself.
