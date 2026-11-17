@@ -29,4 +29,4 @@ All examples are fictional and intended for education. Simulated findings and co
 
 ## Learning Approach
 
-AI will help me understand concepts, plan milestones, and review my work. I’ll write the code myself.
+AI will help me understand concepts, plan milestones, and review my work. I’ll write the code myself..
