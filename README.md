@@ -2,6 +2,8 @@
 
 An educational project inspired by TraceNet, built from scratch to explore security lessons, fictional investigation data, and lab simulations.
 
+<a href="https://drive.google.com/file/d/1IuV_ACnj0ATMMsjT_q9gw_5ERO-qcyUU/view?usp=sharing">slides</a>
+
 ## About
 
 This project is a hands-on learning exercise. I’m building its features myself with AI guidance, using original code, design, and sample data.
