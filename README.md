@@ -8,22 +8,40 @@ An educational project inspired by TraceNet, built from scratch to explore secur
 
 This project is a hands-on learning exercise. I’m building its features myself with AI guidance, using original code, design, and sample data.
 
-## Planned Features
+## Features
 
 - Security lessons with fictional evidence and defensive guidance
 - Searchable sample profiles and infrastructure records
 - Visual relationships between records
 - A simulated lab with sample nodes and logs
-- Browser-local data storage
+- PostgreSQL-backed persistence with a browser-local sample-data fallback
 - Reports and data exports
 
 ## Tech Stack
 
-To be decided.
+- React + TypeScript + Vite frontend
+- Express API
+- PostgreSQL database, accessed by the API through `pg`
 
 ## Getting Started
 
-Setup instructions will be added as the project takes shape.
+1. Install PostgreSQL and create a database, for example `createdb tracenet`.
+2. Set `DATABASE_URL`, for example `postgresql://postgres:password@localhost:5432/tracenet`.
+3. Apply the schema migration with `npx prisma migrate dev --name init`.
+4. Seed the bundled sample records with `npx prisma db seed` (optional; the app also initializes sample data on first connection).
+5. In one terminal run `npm run server`.
+6. In another terminal run `npm run dev` and open `http://localhost:3000`.
+
+The API is available at `http://localhost:3001/api/health`. If PostgreSQL is unreachable, the app falls back to bundled sample data and a local browser backup. Changes made while offline stay in the browser backup; they are not automatically synchronized to PostgreSQL.
+
+## Database Model
+
+- `threat_actors`: actor primary key, unique handle, category, confidence score, and full JSONB profile.
+- `infrastructure`: infrastructure primary key and nullable actor foreign key (`ON DELETE SET NULL`).
+- `linkages`: two actor foreign keys (`ON DELETE CASCADE`) and a checked confidence score.
+- `audit_reports` and `app_settings`: JSONB records.
+
+The API applies a full-state update in a PostgreSQL transaction so a failed constraint check rolls back the entire snapshot. Indexes support infrastructure-by-actor and linkage-by-source/target lookups.
 
 ## Safety and Scope
 

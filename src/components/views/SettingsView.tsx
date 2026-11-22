@@ -26,11 +26,15 @@ export const SettingsView: React.FC = () => {
     showToast('success', 'Settings Saved', 'Proxy and API configurations updated.');
   };
 
-  const handleResetDb = () => {
+  const handleResetDb = async () => {
     if (confirm('Reset entire TraceNet database to default pre-seeded state?')) {
-      dbService.resetToDefaults();
-      showToast('info', 'Database Reset', 'Pre-seeded sample data restored.');
-      setTimeout(() => window.location.reload(), 800);
+      try {
+        await dbService.resetToDefaults();
+        showToast('info', 'Database Reset', 'Pre-seeded sample data restored in PostgreSQL.');
+        setTimeout(() => window.location.reload(), 800);
+      } catch {
+        showToast('error', 'Database Reset Failed', 'Could not save the reset to PostgreSQL.');
+      }
     }
   };
 

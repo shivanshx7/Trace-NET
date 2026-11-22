@@ -20,7 +20,7 @@ function MainApp() {
   const [isTerminalOpen, setIsTerminalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
 
-  // State loaded from SQLite-backed DB service
+  // State loaded from PostgreSQL (or sample/local fallback)
   const [actors, setActors] = useState<ThreatActor[]>([]);
   const [infrastructure, setInfrastructure] = useState<InfrastructureItem[]>([]);
   const [linkages, setLinkages] = useState<ActorLinkage[]>([]);
@@ -32,10 +32,12 @@ function MainApp() {
 
   // Initial load & subscription
   useEffect(() => {
-    setActors(dbService.getActors());
-    setInfrastructure(dbService.getInfrastructure());
-    setLinkages(dbService.getLinkages());
-    setReports(dbService.getReports());
+    dbService.initialize().then(state => {
+      setActors(state.actors);
+      setInfrastructure(state.infrastructure);
+      setLinkages(state.linkages);
+      setReports(state.reports);
+    });
 
     // Subscribe to Docker Lab status changes
     const unsubDocker = dockerSimulator.subscribe((newStatus) => {
@@ -71,23 +73,25 @@ function MainApp() {
   };
 
   // Actor DB Handlers
-  const handleSaveActor = (actor: ThreatActor) => {
-    dbService.saveActor(actor);
+  const handleSaveActor = async (actor: ThreatActor) => {
+    await dbService.saveActor(actor);
     setActors(dbService.getActors());
   };
 
-  const handleDeleteActor = (id: string) => {
-    dbService.deleteActor(id);
+  const handleDeleteActor = async (id: string) => {
+    await dbService.deleteActor(id);
     setActors(dbService.getActors());
+    setInfrastructure(dbService.getInfrastructure());
+    setLinkages(dbService.getLinkages());
   };
 
-  const handleSaveInfrastructure = (item: InfrastructureItem) => {
-    dbService.saveInfrastructure(item);
+  const handleSaveInfrastructure = async (item: InfrastructureItem) => {
+    await dbService.saveInfrastructure(item);
     setInfrastructure(dbService.getInfrastructure());
   };
 
-  const handleSaveLinkage = (linkage: ActorLinkage) => {
-    dbService.saveLinkage(linkage);
+  const handleSaveLinkage = async (linkage: ActorLinkage) => {
+    await dbService.saveLinkage(linkage);
     setLinkages(dbService.getLinkages());
   };
 
@@ -172,6 +176,8 @@ function MainApp() {
       <TerminalModal
         isOpen={isTerminalOpen}
         onClose={() => setIsTerminalOpen(false)}
+        actors={actors}
+        infrastructure={infrastructure}
       />
 
       {/* Standalone macOS Python Desktop Application Source Code Modal */}

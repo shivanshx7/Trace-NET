@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TermIcon, X, CornerDownLeft } from 'lucide-react';
-import { dbService } from '../services/db';
 import { dockerSimulator } from '../services/dockerSimulator';
+import { ThreatActor, InfrastructureItem } from '../types';
 
 interface TerminalModalProps {
   isOpen: boolean;
   onClose: () => void;
   onNavigateSection?: (section: any) => void;
+  actors: ThreatActor[];
+  infrastructure: InfrastructureItem[];
 }
 
 interface CommandHistoryItem {
@@ -15,7 +17,7 @@ interface CommandHistoryItem {
   timestamp: string;
 }
 
-export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose }) => {
+export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose, actors, infrastructure }) => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<CommandHistoryItem[]>([
     {
@@ -82,8 +84,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
 
       case 'status':
         const containers = dockerSimulator.getContainers();
-        const actors = dbService.getActors();
-        const infra = dbService.getInfrastructure();
+        const infra = infrastructure;
         output = (
           <div className="text-xs font-mono space-y-1 text-[#C9D1D9]">
             <div className="text-[#58A6FF] font-semibold">[+] TraceNet System Diagnostics:</div>
@@ -120,7 +121,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({ isOpen, onClose })
 
       case 'actor':
         const handle = args[0] ? args[0].toLowerCase() : 'darkvendor';
-        const actor = dbService.getActors().find(a => a.handle.toLowerCase().includes(handle));
+        const actor = actors.find(a => a.handle.toLowerCase().includes(handle));
         if (actor) {
           output = (
             <div className="text-xs font-mono space-y-1 text-[#C9D1D9]">

@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ThreatActor {
+  id              String           @id
+  handle          String           @unique
+  category        String
+  confidenceScore Int              @default(50) @map("confidence_score")
+  data            Json
+  infrastructure  Infrastructure[]
+  outgoingLinks   ActorLinkage[]   @relation("LinkSource")
+  incomingLinks   ActorLinkage[]   @relation("LinkTarget")
+
+  @@map("threat_actors")
+}
+
+model Infrastructure {
+  id           String       @id
+  actorId      String?      @map("actor_id")
+  onionAddress String       @map("onion_address")
+  data         Json
+  actor        ThreatActor? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId])
+  @@map("infrastructure")
+}
+
+model ActorLinkage {
+  id            String      @id
+  sourceActorId String      @map("source_actor_id")
+  targetActorId String      @map("target_actor_id")
+  linkageType   String      @map("linkage_type")
+  confidence    Float
+  data          Json
+  source        ThreatActor @relation("LinkSource", fields: [sourceActorId], references: [id], onDelete: Cascade)
+  target        ThreatActor @relation("LinkTarget", fields: [targetActorId], references: [id], onDelete: Cascade)
+
+  @@index([sourceActorId])
+  @@index([targetActorId])
+  @@map("linkages")
+}
+
+model AuditReport {
+  id   String @id
+  data Json
+
+  @@map("audit_reports")
+}
+
+model AppSettings {
+  id   Int  @id @default(1)
+  data Json
+
+  @@map("app_settings")
+}
