@@ -32,6 +32,12 @@ This project is a hands-on learning exercise. I’m building its features myself
 5. In one terminal run `npm run server`.
 6. In another terminal run `npm run dev` and open `http://localhost:3000`.
 
+## Desktop App
+
+The same React application can run in an Electron window. Install dependencies with `npm install`, then run `npm run desktop:dev` for desktop development. To create a packaged build for the current operating system, run `npm run desktop:build`; installers are written to `release/`.
+
+The desktop app uses the existing local sample data and browser storage fallback when the PostgreSQL API is not running. To use PostgreSQL, start the API with `npm run server` and configure `DATABASE_URL` as described above.
+
 The API is available at `http://localhost:3001/api/health`. If PostgreSQL is unreachable, the app falls back to bundled sample data and a local browser backup. Changes made while offline stay in the browser backup; they are not automatically synchronized to PostgreSQL.
 
 ## Database Model
