@@ -34,7 +34,7 @@ This project is a hands-on learning exercise. I’m building its features myself
 
 ## Desktop App
 
-The same React application can run in an Electron window. Install dependencies with `npm install`, then run `npm run desktop:dev` for desktop development. To create a packaged build for the current operating system, run `npm run desktop:build`; installers are written to `release/`.
+The same React application can run in an Electron window. Install dependencies with `npm install`, then run `npm run desktop:dev` for desktop development. The project allows Electron's install script so npm can download the desktop runtime during installation. To create a packaged build for the current operating system, run `npm run desktop:build`; installers are written to `release/`.
 
 The desktop app uses the existing local sample data and browser storage fallback when the PostgreSQL API is not running. To use PostgreSQL, start the API with `npm run server` and configure `DATABASE_URL` as described above.
 

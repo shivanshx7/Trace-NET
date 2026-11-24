@@ -55,5 +55,8 @@
     "mac": { "target": ["dmg", "zip"] },
     "win": { "target": ["nsis"] },
     "linux": { "target": ["AppImage"] }
+  },
+  "allowScripts": {
+    "electron@38.8.6": true
   }
 }
